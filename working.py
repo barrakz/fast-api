@@ -1,6 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Path
 
 app = FastAPI()
+
 
 @app.get('/')
 def home():
@@ -10,6 +11,7 @@ def home():
 @app.get('/about')
 def about():
     return {'About': 'Info about me'}
+
 
 inventory = {
     1: {
@@ -26,5 +28,5 @@ inventory = {
 
 
 @app.get('/get-product/{item_id}')
-def get_product(item_id: int):
+def get_product(item_id: int = Path(..., description="The ID of the Item", gt=0, lt=3)):
     return inventory[item_id]
